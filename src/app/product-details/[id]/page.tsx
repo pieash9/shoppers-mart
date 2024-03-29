@@ -1,0 +1,54 @@
+import { getSingleProduct } from "@/utils/api/product";
+import { IProduct } from "@/utils/types/product.types";
+import Image from "next/image";
+import { FaStar } from "react-icons/fa";
+
+const ProductDetails = async ({ params }: { params: { id: string } }) => {
+  let product: IProduct | null = null;
+
+  if (params.id) {
+    try {
+      product = await getSingleProduct(+params.id);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      return <div>Error fetching product details.</div>;
+    }
+  }
+  if (!product) return <div>Error fetching product details.</div>;
+  return (
+    <div className="flex mt-10 container mx-auto w-full gap-5">
+      <div className="flex justify-center items-center md:w-4/12 border rounded">
+        <Image
+          src={product?.image!}
+          alt={product?.title!}
+          width={600}
+          height={600}
+          className="h-72 rounded-md object-contain"
+        />
+      </div>
+      <div className="  rounded-md p-4 md:w-8/12">
+        <div className="p-4 space-y-2">
+          <h1 className="text-2xl font-semibold">{product?.title}</h1>
+          <p className="text-lg font-bold text-orange-500">
+            ${product?.price.toFixed(2)}
+          </p>
+          <div className="flex gap-1 items-center text-sm">
+            <FaStar className="text-yellow-400" />
+            <span>
+              {product?.rating?.rate}/5 <span>({product?.rating?.count})</span>
+            </span>
+          </div>
+          <div className=" text-sm ">{product?.description}</div>
+          <div className="mt-10">
+            <button className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md focus:outline-none">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+      {!product && <div className="text-center">Product not found.</div>}
+    </div>
+  );
+};
+
+export default ProductDetails;
