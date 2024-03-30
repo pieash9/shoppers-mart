@@ -28,14 +28,6 @@ export const cartSlice = createSlice({
       saveToLocalStorage(state.cart);
     },
 
-    getAllCartItem: (state) => {
-      state.cart;
-    },
-
-    getAllCartItemQuantity: (state) => {
-      state.cart.reduce((sum, current) => sum + (current.quantity ?? 0), 0);
-    },
-
     removeFromCart: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
       saveToLocalStorage(state.cart);
@@ -59,12 +51,7 @@ export const cartSlice = createSlice({
   },
 });
 
-export const {
-  addToCart,
-  getAllCartItem,
-  getAllCartItemQuantity,
-  removeFromCart,
-  decreaseQuantity,
-} = cartSlice.actions;
+export const { addToCart, removeFromCart, decreaseQuantity } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
