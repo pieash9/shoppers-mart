@@ -1,9 +1,14 @@
+"use client";
+
+import { addToCart } from "@/redux/features/cart/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { getSingleProduct } from "@/utils/api/product";
 import { IProduct } from "@/utils/types/product.types";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 
 const ProductDetails = async ({ params }: { params: { id: string } }) => {
+  const dispatch = useAppDispatch();
   let product: IProduct | null = null;
 
   if (params.id) {
@@ -15,9 +20,14 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
     }
   }
   if (!product) return <div>Error fetching product details.</div>;
+
+  const handleAddToCart = (product: IProduct) => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <div className="flex mt-10 container mx-auto w-full gap-5">
-      <div className="flex justify-center items-center md:w-4/12 border rounded">
+      <div className="flex justify-center items-center md:w-4/12 border rounded p-4">
         <Image
           src={product?.image!}
           alt={product?.title!}
@@ -27,10 +37,10 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
         />
       </div>
       <div className="  rounded-md p-4 md:w-8/12">
-        <div className="p-4 space-y-2">
+        <div className="space-y-2">
           <h1 className="text-2xl font-semibold">{product?.title}</h1>
           <p className="text-lg font-bold text-orange-500">
-            ${product?.price.toFixed(2)}
+            $ {product?.price.toFixed(2)}
           </p>
           <div className="flex gap-1 items-center text-sm">
             <FaStar className="text-yellow-400" />
@@ -39,11 +49,14 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
             </span>
           </div>
           <div className=" text-sm ">{product?.description}</div>
-          <div className="mt-10">
-            <button className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md focus:outline-none">
-              Add to Cart
-            </button>
-          </div>
+        </div>
+        <div className="mt-8">
+          <button
+            onClick={() => handleAddToCart(product!)}
+            className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md focus:outline-none"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
       {!product && <div className="text-center">Product not found.</div>}
