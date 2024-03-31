@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import Modal from "./modal";
 import { motion } from "framer-motion";
@@ -17,18 +17,26 @@ import Image from "next/image";
 const Header = () => {
   const { cart } = useAppSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [total, setTotal] = useState(0);
+  const [cartTotalItem, setCartTotalItem] = useState(0);
 
   const dispatch = useAppDispatch();
 
-  const cartTotalItem: number = cart.reduce(
-    (sum, current) => sum + (current.quantity ?? 0),
-    0
-  );
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const cartTotalItem: number = cart.reduce(
+        (sum, current) => sum + (current.quantity ?? 0),
+        0
+      );
+      setCartTotalItem(cartTotalItem);
 
-  const total = cart.reduce(
-    (total, item) => total + item.price * item.quantity! ?? 0,
-    0
-  );
+      const total = cart.reduce(
+        (total, item) => total + item.price * item.quantity! ?? 0,
+        0
+      );
+      setTotal(total);
+    }
+  }, [cart]);
 
   const handleIncreaseQuantity = (item: IProduct) => {
     dispatch(addToCart(item));
@@ -42,12 +50,15 @@ const Header = () => {
   };
 
   return (
-    <div className="py-4 px-4 bg-slate-200 ">
+    <div className="py-4 px-4 bg-slate-200">
       <nav className="flex justify-between items-center container mx-auto">
         <h2 className="text-xl font-semibold">
           <Link href="/">Shoppers Mart</Link>
         </h2>
-        <button onClick={() => setIsOpen(true)} className="relative">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="relative mr-4 md:mr-0"
+        >
           <FaCartPlus size={22} />
           <p className="absolute font-medium -top-3 -right-4 z-10 bg-orange-400/70 text-sm rounded-full px-1">
             {cartTotalItem}
@@ -56,6 +67,7 @@ const Header = () => {
       </nav>
 
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <div className="text-xl font-semibold">Cart Item</div>
         <div className="mt-2 grid grid-cols-1 gap-5">
           {cart && cart.length > 0 ? (
             cart.map((item) => (
@@ -64,11 +76,9 @@ const Header = () => {
                 className="group transition-all p-3 shadow-md duration-300"
               >
                 <div className="flex items-center gap-5 ">
-                  {/* set loading for a specific item only */}
-                  <div className="relative flex justify-center items-center">
-                    <div className="absolute"></div>
+                  <div className="relative flex justify-center items-center w-20">
                     <Image
-                      className={`w-14 duration-500 object-contain`}
+                      className=" duration-500 object-contain"
                       src={item.image}
                       alt={item?.title}
                       width={50}

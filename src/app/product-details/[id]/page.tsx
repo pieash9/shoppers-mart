@@ -26,7 +26,7 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <div className="flex mt-10 container mx-auto w-full gap-5">
+    <div className="md:flex mt-10 container mx-auto w-full gap-5">
       <div className="flex justify-center items-center md:w-4/12 border rounded p-4">
         <Image
           src={product?.image!}
