@@ -13,6 +13,7 @@ Check out the live demo of Shoppers Mart [here](https://shoppers-mart.vercel.app
 - **Redux:** Redux is a predictable state container for JavaScript apps, commonly used with React for managing application state.
 - **Tailwind CSS:** Tailwind CSS is a utility-first CSS framework that provides low-level utility classes to build custom designs without having to leave your HTML.
 - **Vite:** Vite is a fast, opinionated web dev build tool that serves your code via native ES Module imports during development.
+- **Frame Motion:** Frame Motion is a library for creating animations in React using the Framer Motion API. It provides a simple and declarative way to animate components and elements.
 
 ## Getting Started
 
