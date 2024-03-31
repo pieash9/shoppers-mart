@@ -52,9 +52,9 @@ const Header = () => {
   return (
     <div className="py-4 px-4 bg-slate-200">
       <nav className="flex justify-between items-center container mx-auto">
-        <h2 className="text-xl font-semibold">
-          <Link href="/">Shoppers Mart</Link>
-        </h2>
+        <Link href="/">
+          <h2 className="text-xl font-semibold">Shoppers Mart</h2>
+        </Link>
         <button
           onClick={() => setIsOpen(true)}
           className="relative mr-4 md:mr-0"
