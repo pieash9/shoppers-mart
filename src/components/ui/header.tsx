@@ -66,8 +66,7 @@ const Header = () => {
         </button>
       </nav>
 
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-        <div className="text-xl font-semibold">Cart Item</div>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Cart Item">
         <div className="mt-2 grid grid-cols-1 gap-5">
           {cart && cart.length > 0 ? (
             cart.map((item) => (

@@ -6,6 +6,7 @@ import { getSingleProduct } from "@/utils/api/product";
 import { IProduct } from "@/utils/types/product.types";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const ProductDetails = async ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,12 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="md:flex mt-10 container mx-auto w-full gap-5">
-      <div className="flex justify-center items-center md:w-4/12 border rounded p-4">
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ ease: "easeInOut", duration: 0.5 }}
+        className="flex justify-center items-center md:w-4/12 border rounded p-4"
+      >
         <Image
           src={product?.image!}
           alt={product?.title!}
@@ -35,8 +41,13 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
           height={600}
           className="h-72 rounded-md object-contain"
         />
-      </div>
-      <div className="  rounded-md p-4 md:w-8/12">
+      </motion.div>
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ ease: "easeInOut", duration: 0.5, delay: 0.3 }}
+        className="  rounded-md p-4 md:w-8/12"
+      >
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold">{product?.title}</h1>
           <p className="text-lg font-bold text-orange-500">
@@ -58,7 +69,7 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
             Add to Cart
           </button>
         </div>
-      </div>
+      </motion.div>
       {!product && <div className="text-center">Product not found.</div>}
     </div>
   );
